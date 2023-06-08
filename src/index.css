@@ -6,8 +6,9 @@
 }
 
 body {
+  margin: 0;
   background-color: #ffffff;
-  padding: 2rem;
+  padding: 0;
 }
 
 p {
@@ -16,4 +17,9 @@ p {
 
 a {
   text-decoration: none;
+}
+
+.navbar {
+  margin: 0;
+  padding: 0;
 }
