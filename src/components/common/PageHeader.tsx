@@ -1,16 +1,9 @@
-import { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  Button,
-  Offcanvas,
-} from "react-bootstrap";
-import { BsSearch, BsList } from "react-icons/bs";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { BsList } from "react-icons/bs";
 import styled from "styled-components";
 import githubLogo from "../../assets/img/github.png";
 import githubText from "../../assets/img/github-text.png";
+import { SearchUser } from "./connected-components/SearchUser";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../types/User";
 
@@ -19,48 +12,7 @@ export interface PageHeaderProps {
 }
 
 export function PageHeader({ children }: PageHeaderProps): JSX.Element {
-  const { register, watch, setValue, handleSubmit } = useFormContext<User>();
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
-
-  const onSearchSubmit = async () => {
-    setValue("isLoading", true);
-    try {
-      const response = await fetch(
-        `https://api.github.com/users/${watch("login")}`
-      );
-
-      const data = await response.json();
-
-      if (data.message && data.message === "Not Found") {
-        setValue("statusSearch", "User not found");
-      } else {
-        setValue("avatarUrl", data.avatar_url);
-        setValue("starredUrl", data.starred_url);
-        setValue("reposUrl", data.repos_url);
-        setValue("name", data.name);
-        setValue("company", data.company);
-        setValue("blog", data.blog);
-        setValue("location", data.location);
-        setValue("email", data.email);
-        setValue("bio", data.bio);
-        setValue("publicRepos", data.public_repos);
-        setValue("statusSearch", "");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setValue("isLoading", false);
-      if (showOffcanvas) {
-        setShowOffcanvas(false);
-      }
-    }
-  };
-
-  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      handleSubmit(onSearchSubmit)();
-    }
-  }
+  const { setValue } = useFormContext<User>();
 
   const LogoContainer = styled.div`
     display: flex;
@@ -83,59 +35,12 @@ export function PageHeader({ children }: PageHeaderProps): JSX.Element {
     color: #fff;
   `;
 
-  const SearchForm = styled(Form)`
-    display: flex;
-    align-items: center;
-  `;
-
-  const SearchInput = styled(Form.Control)`
-    border-radius: 4px;
-    width: 150px;
-    font-size: 12px;
-
-    &::placeholder {
-      font-size: 12px;
-    }
-  `;
-
-  const SearchButton = styled(Button)`
-    &&& {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:focus,
-      &:active {
-        background-color: transparent;
-      }
-
-      &:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
-  `;
-
-  const SearchOffcanvasButton = styled(Button)`
-    &&& {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:focus,
-      &:active {
-        background-color: transparent;
-      }
-
-      &:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-
-      svg {
-        color: #888;
-      }
-    }
+  const MenuButton = styled(Button)`
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #fff;
   `;
 
   return (
@@ -157,51 +62,14 @@ export function PageHeader({ children }: PageHeaderProps): JSX.Element {
             </Nav>
           </LogoContainer>
           <Nav className="ms-auto d-lg-none text-end">
-            <Button
-              variant="outline-secondary"
-              onClick={() => setShowOffcanvas(!showOffcanvas)}
-            >
+            <MenuButton onClick={() => setValue("searchCompleted", false)}>
               <BsList />
-            </Button>
+            </MenuButton>
           </Nav>
-          <SearchForm
-            onSubmit={handleSubmit(onSearchSubmit)}
-            className="d-none d-lg-flex"
-          >
-            <SearchInput
-              type="search"
-              placeholder="Search username"
-              {...register("login")}
-              onKeyPress={handleKeyPress}
-            />
-            <SearchButton type="submit">
-              <BsSearch />
-            </SearchButton>
-          </SearchForm>
+          <SearchUser className="d-none d-lg-flex" />
         </Container>
       </Navbar>
-      <Offcanvas
-        show={showOffcanvas}
-        onHide={() => setShowOffcanvas(false)}
-        placement="end"
-      >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Menu</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <SearchForm onSubmit={handleSubmit(onSearchSubmit)}>
-            <SearchInput
-              type="search"
-              placeholder="Search username"
-              {...register("login")}
-              onKeyPress={handleKeyPress}
-            />
-            <SearchOffcanvasButton type="submit">
-              <BsSearch className="search-icon-black" />
-            </SearchOffcanvasButton>
-          </SearchForm>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <SearchUser isOffcanvas />
       <div className="m-3">{children}</div>
     </>
   );

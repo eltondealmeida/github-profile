@@ -12,4 +12,5 @@ export interface User {
   publicRepos: number;
   statusSearch: string;
   isLoading: boolean;
+  searchCompleted: boolean;
 }

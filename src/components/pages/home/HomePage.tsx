@@ -15,6 +15,11 @@ export default function HomePage() {
         </div>
       ) : watch("statusSearch")?.length > 0 ? (
         <h5 className="text-center text-danger">{watch("statusSearch")}</h5>
+      ) : !watch("searchCompleted") ? (
+        <h5 className="text-center">
+          GitHub Profile - Search users to view all their repositories and
+          favorite repositories
+        </h5>
       ) : (
         <Profile />
       )}
