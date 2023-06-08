@@ -1,8 +1,13 @@
-import { Form, Button, Offcanvas } from "react-bootstrap";
+import { Offcanvas } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
-import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../../types/User";
+import {
+  SearchButton,
+  SearchForm,
+  SearchInput,
+  SearchOffcanvasButton,
+} from "../../styled/styledComponents";
 
 export interface SearchUserProps {
   isOffcanvas?: boolean;
@@ -46,61 +51,6 @@ export function SearchUser({
       setValue("searchCompleted", true);
     }
   };
-
-  const SearchForm = styled(Form)`
-    display: flex;
-    align-items: center;
-  `;
-
-  const SearchInput = styled(Form.Control)`
-    border-radius: 4px;
-    width: 150px;
-    font-size: 12px;
-
-    &::placeholder {
-      font-size: 12px;
-    }
-  `;
-
-  const SearchButton = styled(Button)`
-    &&& {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:focus,
-      &:active {
-        background-color: transparent;
-      }
-
-      &:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
-  `;
-
-  const SearchOffcanvasButton = styled(Button)`
-    &&& {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:focus,
-      &:active {
-        background-color: transparent;
-      }
-
-      &:active {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-
-      svg {
-        color: #888;
-      }
-    }
-  `;
 
   return isOffcanvas ? (
     <Offcanvas

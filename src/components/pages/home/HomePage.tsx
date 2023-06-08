@@ -3,6 +3,11 @@ import { useFormContext } from "react-hook-form";
 import { PageHeader } from "../../common/PageHeader";
 import { User } from "../../../types/User";
 import { Profile } from "../../common/Profile";
+import {
+  ErrorText,
+  IntroText,
+  SpinnerContainer,
+} from "../../styled/styledComponents";
 
 export default function HomePage() {
   const { watch } = useFormContext<User>();
@@ -10,16 +15,16 @@ export default function HomePage() {
   return (
     <PageHeader>
       {watch("isLoading") ? (
-        <div className="text-center justify-content-center">
+        <SpinnerContainer>
           <Spinner animation="border" />
-        </div>
+        </SpinnerContainer>
       ) : watch("statusSearch")?.length > 0 ? (
-        <h5 className="text-center text-danger">{watch("statusSearch")}</h5>
+        <ErrorText>{watch("statusSearch")}</ErrorText>
       ) : !watch("searchCompleted") ? (
-        <h5 className="text-center">
+        <IntroText>
           GitHub Profile - Search users to view all their repositories and
           favorite repositories
-        </h5>
+        </IntroText>
       ) : (
         <Profile />
       )}

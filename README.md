@@ -34,5 +34,6 @@ Este projeto foi criado usando React, TypeScript e as seguintes bibliotecas:
 - react-hook-form
 - react-bootstrap bootstrap
 - bootstrap @types/bootstrap
+- react-responsive
 
 Certifique-se de que essas dependências estejam instaladas antes de executar o projeto.

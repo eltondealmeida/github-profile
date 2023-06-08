@@ -1,63 +1,162 @@
-import { useEffect, useState } from "react";
-import { Card, Col, ListGroup, Nav, Row, Tab } from "react-bootstrap";
+import { Card, Col, Collapse, Row } from "react-bootstrap";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../types/User";
-import styled from "styled-components";
-
-const ProfileContainer = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-const ProfileImage = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-`;
+import styled, { css } from "styled-components";
+import {
+  BsChevronDown,
+  BsChevronUp,
+  BsPaperclip,
+  BsBuilding,
+  BsGeoAlt,
+} from "react-icons/bs";
+import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+import {
+  AdditionalInfoCard,
+  AdditionalInfoContent,
+  AdditionalInfoToggle,
+  AdditionalInfoToggleText,
+  AdditionalLinksContainer,
+  ChevronIcon,
+  ProfileBio,
+  ProfileImage,
+  ProfileLink,
+  ProfileLinkContainer,
+  ProfileLinkIcon,
+  ProfileLinkWrapper,
+  ProfileName,
+} from "../styled/styledComponents";
 
 export function Profile(): JSX.Element {
   const { watch } = useFormContext<User>();
 
   const avatarUrl = watch("avatarUrl");
-  const reposUrl = watch("reposUrl");
-  const starredUrl = watch("starredUrl");
+  const name = watch("name");
+  const bio = watch("bio");
+  const company = watch("company");
+  const location = watch("location");
+  const blog = watch("blog");
+
+  const [isAdditionalInfoOpen, setIsAdditionalInfoOpen] = useState(false);
+  const isDesktop = useMediaQuery({ minWidth: 992 });
+
+  const toggleAdditionalInfo = () => {
+    setIsAdditionalInfoOpen(!isAdditionalInfoOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (isDesktop) {
+        setIsAdditionalInfoOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isDesktop]);
+
+  const StyledCol = styled(Col)`
+    ${isDesktop &&
+    css`
+      text-align: center;
+    `}
+  `;
 
   return (
     <Row className="m-4">
-      <Col xs={12} lg={3}>
+      <StyledCol md="auto" className={isDesktop ? "ms-5" : ""}>
         <ProfileImage src={avatarUrl} alt="User Avatar" />
         <div>
-          <h5 className="fw-bold mt-2">{watch("name")}</h5>
-          <a href={watch("blog")} />
+          <ProfileName>{name}</ProfileName>
+          <ProfileBio>{bio}</ProfileBio>
+
+          {(company || location || blog) && (
+            <AdditionalInfoToggle onClick={toggleAdditionalInfo}>
+              <AdditionalInfoToggleText>
+                Additional Information
+              </AdditionalInfoToggleText>
+              <ChevronIcon>
+                {isAdditionalInfoOpen ? <BsChevronUp /> : <BsChevronDown />}
+              </ChevronIcon>
+            </AdditionalInfoToggle>
+          )}
+
+          <AdditionalInfoContent>
+            <Collapse in={isAdditionalInfoOpen}>
+              <AdditionalInfoCard bg="light">
+                <Card.Body>
+                  {company && (
+                    <ProfileLinkWrapper>
+                      <ProfileLinkContainer>
+                        <ProfileLinkIcon>
+                          <BsBuilding />
+                        </ProfileLinkIcon>
+                        <ProfileLink>{company}</ProfileLink>
+                      </ProfileLinkContainer>
+                    </ProfileLinkWrapper>
+                  )}
+                  {location && (
+                    <ProfileLinkWrapper>
+                      <ProfileLinkContainer>
+                        <ProfileLinkIcon>
+                          <BsGeoAlt />
+                        </ProfileLinkIcon>
+                        <ProfileLink>{location}</ProfileLink>
+                      </ProfileLinkContainer>
+                    </ProfileLinkWrapper>
+                  )}
+                  {blog && (
+                    <ProfileLinkWrapper>
+                      <ProfileLinkContainer>
+                        <ProfileLinkIcon>
+                          <BsPaperclip />
+                        </ProfileLinkIcon>
+                        <ProfileLink href={blog}>{blog}</ProfileLink>
+                      </ProfileLinkContainer>
+                    </ProfileLinkWrapper>
+                  )}
+                </Card.Body>
+              </AdditionalInfoCard>
+            </Collapse>
+          </AdditionalInfoContent>
         </div>
-      </Col>
-      <Col xs={12} lg={9}>
-        <ListGroup variant="flush">
-          <ListGroup.Item></ListGroup.Item>
-          <ListGroup.Item>
-            <strong>Location:</strong> {watch("location")}
-          </ListGroup.Item>
-          {/* Adicione outros campos de dados pessoais aqui */}
-        </ListGroup>
-        <Tab.Container defaultActiveKey="repositories">
-          <Nav variant="tabs">
-            <Nav.Item>
-              <Nav.Link eventKey="repositories">Repositories</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="starred">Starred</Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Tab.Content>
-            <Tab.Pane eventKey="repositories">
-              {/* Renderize a lista de repositórios aqui */}
-            </Tab.Pane>
-            <Tab.Pane eventKey="starred">
-              {/* Renderize a lista de starred aqui */}
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
-      </Col>
+        <AdditionalLinksContainer>
+          {company && (
+            <ProfileLinkWrapper>
+              <ProfileLinkContainer>
+                <ProfileLinkIcon>
+                  <BsBuilding />
+                </ProfileLinkIcon>
+                <ProfileLink>{company}</ProfileLink>
+              </ProfileLinkContainer>
+            </ProfileLinkWrapper>
+          )}
+          {location && (
+            <ProfileLinkWrapper>
+              <ProfileLinkContainer>
+                <ProfileLinkIcon>
+                  <BsGeoAlt />
+                </ProfileLinkIcon>
+                <ProfileLink>{location}</ProfileLink>
+              </ProfileLinkContainer>
+            </ProfileLinkWrapper>
+          )}
+          {blog && (
+            <ProfileLinkWrapper>
+              <ProfileLinkContainer>
+                <ProfileLinkIcon>
+                  <BsPaperclip />
+                </ProfileLinkIcon>
+                <ProfileLink href={blog}>{blog}</ProfileLink>
+              </ProfileLinkContainer>
+            </ProfileLinkWrapper>
+          )}
+        </AdditionalLinksContainer>
+      </StyledCol>
+      <Col md="auto">Repositories</Col>
     </Row>
   );
 }

@@ -1,11 +1,17 @@
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { BsList } from "react-icons/bs";
-import styled from "styled-components";
 import githubLogo from "../../assets/img/github.png";
 import githubText from "../../assets/img/github-text.png";
 import { SearchUser } from "./connected-components/SearchUser";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../types/User";
+import {
+  LogoContainer,
+  LogoImage,
+  LogoText,
+  MenuButton,
+  ProfileNavLink,
+} from "../styled/styledComponents";
 
 export interface PageHeaderProps {
   children: React.ReactNode;
@@ -13,35 +19,6 @@ export interface PageHeaderProps {
 
 export function PageHeader({ children }: PageHeaderProps): JSX.Element {
   const { setValue } = useFormContext<User>();
-
-  const LogoContainer = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 60px;
-  `;
-
-  const LogoImage = styled.img`
-    width: 24px;
-    height: 23px;
-    margin-right: 8px;
-  `;
-
-  const LogoText = styled.img`
-    width: 90px;
-    height: 40px;
-  `;
-
-  const ProfileLink = styled(Nav.Link)`
-    color: #fff;
-  `;
-
-  const MenuButton = styled(Button)`
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border: 1px solid #fff;
-  `;
 
   return (
     <>
@@ -57,7 +34,7 @@ export function PageHeader({ children }: PageHeaderProps): JSX.Element {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <ProfileLink href="home">Profile</ProfileLink>
+                <ProfileNavLink href="home">Profile</ProfileNavLink>
               </Nav.Item>
             </Nav>
           </LogoContainer>
