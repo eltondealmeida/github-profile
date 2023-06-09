@@ -26,6 +26,7 @@ import {
   ProfileLinkWrapper,
   ProfileName,
 } from "../styled/styledComponents";
+import { Repositories } from "./Repositories";
 
 export function Profile(): JSX.Element {
   const { watch } = useFormContext<User>();
@@ -156,7 +157,9 @@ export function Profile(): JSX.Element {
           )}
         </AdditionalLinksContainer>
       </StyledCol>
-      <Col md="auto">Repositories</Col>
+      <Col md="auto">
+        <Repositories />
+      </Col>
     </Row>
   );
 }

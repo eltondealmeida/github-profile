@@ -1,5 +1,6 @@
 export interface User {
   login: string;
+  previousLogin: string;
   avatarUrl: string;
   starredUrl: string;
   reposUrl: string;
@@ -10,7 +11,7 @@ export interface User {
   email: string | null;
   bio: string;
   publicRepos: number;
-  statusSearch: string;
+  searchStatus: string;
   isLoading: boolean;
   searchCompleted: boolean;
 }

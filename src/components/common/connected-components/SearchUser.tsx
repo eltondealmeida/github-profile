@@ -8,6 +8,7 @@ import {
   SearchInput,
   SearchOffcanvasButton,
 } from "../../styled/styledComponents";
+import axios from "axios";
 
 export interface SearchUserProps {
   isOffcanvas?: boolean;
@@ -22,15 +23,27 @@ export function SearchUser({
 
   const onSearchSubmit = async () => {
     setValue("isLoading", true);
-    try {
-      const response = await fetch(
-        `https://api.github.com/users/${watch("login")}`
-      );
+    const login = watch("login");
+    const previousLogin = watch("previousLogin");
 
-      const data = await response.json();
+    if (!login) {
+      setValue("searchStatus", "User not found");
+      setValue("isLoading", false);
+      setValue("searchCompleted", true);
+      return;
+    }
+
+    try {
+      if (login !== previousLogin) {
+        setValue("searchStatus", "User not found");
+      }
+
+      const response = await axios.get(`https://api.github.com/users/${login}`);
+
+      const data = response.data;
 
       if (data.message && data.message === "Not Found") {
-        setValue("statusSearch", "User not found");
+        setValue("searchStatus", "User not found");
       } else {
         setValue("avatarUrl", data.avatar_url);
         setValue("starredUrl", data.starred_url);
@@ -42,13 +55,14 @@ export function SearchUser({
         setValue("email", data.email);
         setValue("bio", data.bio);
         setValue("publicRepos", data.public_repos);
-        setValue("statusSearch", "");
+        setValue("searchStatus", "");
       }
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setValue("isLoading", false);
       setValue("searchCompleted", true);
+      setValue("previousLogin", login);
     }
   };
 

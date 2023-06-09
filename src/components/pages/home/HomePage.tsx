@@ -12,15 +12,19 @@ import {
 export default function HomePage() {
   const { watch } = useFormContext<User>();
 
+  const searchStatus = watch("searchStatus");
+  const isLoading = watch("isLoading");
+  const searchCompleted = watch("searchCompleted");
+
   return (
     <PageHeader>
-      {watch("isLoading") ? (
+      {isLoading ? (
         <SpinnerContainer>
           <Spinner animation="border" />
         </SpinnerContainer>
-      ) : watch("statusSearch")?.length > 0 ? (
-        <ErrorText>{watch("statusSearch")}</ErrorText>
-      ) : !watch("searchCompleted") ? (
+      ) : searchStatus?.length > 0 ? (
+        <ErrorText>{searchStatus}</ErrorText>
+      ) : !searchCompleted ? (
         <IntroText>
           GitHub Profile - Search users to view all their repositories and
           favorite repositories

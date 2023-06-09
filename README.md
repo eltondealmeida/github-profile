@@ -1,6 +1,16 @@
-# GitHub profile - Projeto elaborado para a Magazord
+<h3 align="center">Github profile</h3>
 
-Bem-vindo ao GitHub profile! Este projeto permite que você acesse informações sobre repositórios e demais itens de perfis públicos do GitHub, filtrados por tipos e linguagens utilizando a API do GitHub. Você pode usar essa API para retornar dados relacionados aos usuários e repositórios.
+Bem-vindo ao GitHub profile! Este projeto permite que você acesse informações sobre o perfil, repositórios do usúario e seus respositorios favoritos, filtrados por tipos e linguagens utilizando a [Api do GitHub](https://docs.github.com/pt/rest).
+
+<div align="center">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/eltondealmeida/github-profile">
+  
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/eltondealmeida/github-profile">
+  
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/eltondealmeida/github-profile">
+  
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/eltondealmeida/github-profile">
+</div>
 
 ## Visão geral do projeto
 
@@ -26,7 +36,7 @@ Neste vídeo, me aprofundo no código do projeto GitHub profile. Explico a estru
 
 ## Dependências
 
-Este projeto foi criado usando React, TypeScript e as seguintes bibliotecas:
+Este projeto foi criado usando [ReactJS](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/) e as seguintes bibliotecas:
 
 - react-router-dom
 - react-icons
@@ -35,5 +45,10 @@ Este projeto foi criado usando React, TypeScript e as seguintes bibliotecas:
 - react-bootstrap bootstrap
 - bootstrap @types/bootstrap
 - react-responsive
+- axios
 
 Certifique-se de que essas dependências estejam instaladas antes de executar o projeto.
+
+## Autor
+
+- [Elton de Almeida Oliveira](https://linkedin.com/in/eltondealmeida)
