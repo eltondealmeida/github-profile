@@ -67,8 +67,8 @@ export function Profile(): JSX.Element {
   `;
 
   return (
-    <Row className="m-4">
-      <StyledCol md="auto" className={isDesktop ? "ms-5" : ""}>
+    <Row className="m-4 g-3">
+      <StyledCol md="4" className={isDesktop ? "ms-5" : ""}>
         <ProfileImage src={avatarUrl} alt="User Avatar" />
         <div>
           <ProfileName>{name}</ProfileName>
@@ -157,7 +157,7 @@ export function Profile(): JSX.Element {
           )}
         </AdditionalLinksContainer>
       </StyledCol>
-      <Col md="auto">
+      <Col md="6">
         <Repositories />
       </Col>
     </Row>

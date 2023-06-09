@@ -8,7 +8,6 @@ export interface User {
   company: string | null;
   blog: string;
   location: string | null;
-  email: string | null;
   bio: string;
   publicRepos: number;
   searchStatus: string;

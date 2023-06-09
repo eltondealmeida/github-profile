@@ -52,7 +52,6 @@ export function SearchUser({
         setValue("company", data.company);
         setValue("blog", data.blog);
         setValue("location", data.location);
-        setValue("email", data.email);
         setValue("bio", data.bio);
         setValue("publicRepos", data.public_repos);
         setValue("searchStatus", "");
