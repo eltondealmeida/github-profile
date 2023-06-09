@@ -6,7 +6,7 @@ import {
   SearchButton,
   SearchForm,
   SearchInput,
-  SearchOffcanvasButton,
+  SearchSvgGrayButton,
 } from "../../styled/styledComponents";
 import axios from "axios";
 
@@ -81,9 +81,9 @@ export function SearchUser({
             placeholder="Search username"
             {...register("login")}
           />
-          <SearchOffcanvasButton type="submit">
+          <SearchSvgGrayButton type="submit">
             <BsSearch className="search-icon-black" />
-          </SearchOffcanvasButton>
+          </SearchSvgGrayButton>
         </SearchForm>
       </Offcanvas.Body>
     </Offcanvas>

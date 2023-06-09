@@ -26,7 +26,7 @@ import {
   ProfileLinkWrapper,
   ProfileName,
 } from "../styled/styledComponents";
-import { Repositories } from "./Repositories";
+import { Repositories } from "./connected-components/Repositories";
 
 export function Profile(): JSX.Element {
   const { watch } = useFormContext<User>();

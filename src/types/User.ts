@@ -3,14 +3,18 @@ export interface User {
   previousLogin: string;
   avatarUrl: string;
   starredUrl: string;
-  reposUrl: string;
   name: string;
   company: string | null;
   blog: string;
   location: string | null;
   bio: string;
-  publicRepos: number;
   searchStatus: string;
   isLoading: boolean;
   searchCompleted: boolean;
+  publicRepos: number;
+  reposUrl: string;
+  repositoryName: string;
+  previousRepositoryName: string;
+  isRepositoryLoading: boolean;
+  searchRepositoryStatus: string;
 }
