@@ -1,4 +1,7 @@
 export interface Repository {
+  forks: number;
+  stars: number;
+  type: string;
   archived: unknown;
   id: number;
   name: string;
