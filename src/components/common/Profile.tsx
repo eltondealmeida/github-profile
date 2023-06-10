@@ -1,4 +1,4 @@
-import { Card, Col, Collapse, Row } from "react-bootstrap";
+import { Card, Col, Collapse } from "react-bootstrap";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../types/User";
 import styled, { css } from "styled-components";
@@ -26,7 +26,6 @@ import {
   ProfileLinkWrapper,
   ProfileName,
 } from "../styled/styledComponents";
-import { Repositories } from "./connected-components/Repositories";
 
 export function Profile(): JSX.Element {
   const { watch } = useFormContext<User>();
@@ -67,99 +66,94 @@ export function Profile(): JSX.Element {
   `;
 
   return (
-    <Row className="m-4 g-3">
-      <StyledCol md="4" className={isDesktop ? "ms-5" : ""}>
-        <ProfileImage src={avatarUrl} alt="User Avatar" />
-        <div>
-          <ProfileName>{name}</ProfileName>
-          <ProfileBio>{bio}</ProfileBio>
+    <StyledCol md="4" className={isDesktop ? "ms-5" : ""}>
+      <ProfileImage src={avatarUrl} alt="User Avatar" />
+      <div>
+        <ProfileName>{name}</ProfileName>
+        <ProfileBio>{bio}</ProfileBio>
 
-          {(company || location || blog) && (
-            <AdditionalInfoToggle onClick={toggleAdditionalInfo}>
-              <AdditionalInfoToggleText>
-                Additional Information
-              </AdditionalInfoToggleText>
-              <ChevronIcon>
-                {isAdditionalInfoOpen ? <BsChevronUp /> : <BsChevronDown />}
-              </ChevronIcon>
-            </AdditionalInfoToggle>
-          )}
+        {(company || location || blog) && (
+          <AdditionalInfoToggle onClick={toggleAdditionalInfo}>
+            <AdditionalInfoToggleText>
+              Additional Information
+            </AdditionalInfoToggleText>
+            <ChevronIcon>
+              {isAdditionalInfoOpen ? <BsChevronUp /> : <BsChevronDown />}
+            </ChevronIcon>
+          </AdditionalInfoToggle>
+        )}
 
-          <AdditionalInfoContent>
-            <Collapse in={isAdditionalInfoOpen}>
-              <AdditionalInfoCard bg="light">
-                <Card.Body>
-                  {company && (
-                    <ProfileLinkWrapper>
-                      <ProfileLinkContainer>
-                        <ProfileLinkIcon>
-                          <BsBuilding />
-                        </ProfileLinkIcon>
-                        <ProfileLink>{company}</ProfileLink>
-                      </ProfileLinkContainer>
-                    </ProfileLinkWrapper>
-                  )}
-                  {location && (
-                    <ProfileLinkWrapper>
-                      <ProfileLinkContainer>
-                        <ProfileLinkIcon>
-                          <BsGeoAlt />
-                        </ProfileLinkIcon>
-                        <ProfileLink>{location}</ProfileLink>
-                      </ProfileLinkContainer>
-                    </ProfileLinkWrapper>
-                  )}
-                  {blog && (
-                    <ProfileLinkWrapper>
-                      <ProfileLinkContainer>
-                        <ProfileLinkIcon>
-                          <BsPaperclip />
-                        </ProfileLinkIcon>
-                        <ProfileLink href={blog}>{blog}</ProfileLink>
-                      </ProfileLinkContainer>
-                    </ProfileLinkWrapper>
-                  )}
-                </Card.Body>
-              </AdditionalInfoCard>
-            </Collapse>
-          </AdditionalInfoContent>
-        </div>
-        <AdditionalLinksContainer>
-          {company && (
-            <ProfileLinkWrapper>
-              <ProfileLinkContainer>
-                <ProfileLinkIcon>
-                  <BsBuilding />
-                </ProfileLinkIcon>
-                <ProfileLink>{company}</ProfileLink>
-              </ProfileLinkContainer>
-            </ProfileLinkWrapper>
-          )}
-          {location && (
-            <ProfileLinkWrapper>
-              <ProfileLinkContainer>
-                <ProfileLinkIcon>
-                  <BsGeoAlt />
-                </ProfileLinkIcon>
-                <ProfileLink>{location}</ProfileLink>
-              </ProfileLinkContainer>
-            </ProfileLinkWrapper>
-          )}
-          {blog && (
-            <ProfileLinkWrapper>
-              <ProfileLinkContainer>
-                <ProfileLinkIcon>
-                  <BsPaperclip />
-                </ProfileLinkIcon>
-                <ProfileLink href={blog}>{blog}</ProfileLink>
-              </ProfileLinkContainer>
-            </ProfileLinkWrapper>
-          )}
-        </AdditionalLinksContainer>
-      </StyledCol>
-      <Col md="6">
-        <Repositories />
-      </Col>
-    </Row>
+        <AdditionalInfoContent>
+          <Collapse in={isAdditionalInfoOpen}>
+            <AdditionalInfoCard bg="light">
+              <Card.Body>
+                {company && (
+                  <ProfileLinkWrapper>
+                    <ProfileLinkContainer>
+                      <ProfileLinkIcon>
+                        <BsBuilding />
+                      </ProfileLinkIcon>
+                      <ProfileLink>{company}</ProfileLink>
+                    </ProfileLinkContainer>
+                  </ProfileLinkWrapper>
+                )}
+                {location && (
+                  <ProfileLinkWrapper>
+                    <ProfileLinkContainer>
+                      <ProfileLinkIcon>
+                        <BsGeoAlt />
+                      </ProfileLinkIcon>
+                      <ProfileLink>{location}</ProfileLink>
+                    </ProfileLinkContainer>
+                  </ProfileLinkWrapper>
+                )}
+                {blog && (
+                  <ProfileLinkWrapper>
+                    <ProfileLinkContainer>
+                      <ProfileLinkIcon>
+                        <BsPaperclip />
+                      </ProfileLinkIcon>
+                      <ProfileLink href={blog}>{blog}</ProfileLink>
+                    </ProfileLinkContainer>
+                  </ProfileLinkWrapper>
+                )}
+              </Card.Body>
+            </AdditionalInfoCard>
+          </Collapse>
+        </AdditionalInfoContent>
+      </div>
+      <AdditionalLinksContainer>
+        {company && (
+          <ProfileLinkWrapper>
+            <ProfileLinkContainer>
+              <ProfileLinkIcon>
+                <BsBuilding />
+              </ProfileLinkIcon>
+              <ProfileLink>{company}</ProfileLink>
+            </ProfileLinkContainer>
+          </ProfileLinkWrapper>
+        )}
+        {location && (
+          <ProfileLinkWrapper>
+            <ProfileLinkContainer>
+              <ProfileLinkIcon>
+                <BsGeoAlt />
+              </ProfileLinkIcon>
+              <ProfileLink>{location}</ProfileLink>
+            </ProfileLinkContainer>
+          </ProfileLinkWrapper>
+        )}
+        {blog && (
+          <ProfileLinkWrapper>
+            <ProfileLinkContainer>
+              <ProfileLinkIcon>
+                <BsPaperclip />
+              </ProfileLinkIcon>
+              <ProfileLink href={blog}>{blog}</ProfileLink>
+            </ProfileLinkContainer>
+          </ProfileLinkWrapper>
+        )}
+      </AdditionalLinksContainer>
+    </StyledCol>
   );
 }

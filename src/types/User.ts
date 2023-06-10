@@ -3,6 +3,7 @@ export interface User {
   previousLogin: string;
   avatarUrl: string;
   starredUrl: string;
+  starredCount: number;
   name: string;
   company: string | null;
   blog: string;
@@ -13,6 +14,7 @@ export interface User {
   searchCompleted: boolean;
   publicRepos: number;
   reposUrl: string;
+  reposCount: number;
   repositoryName: string;
   previousRepositoryName: string;
   isRepositoryLoading: boolean;

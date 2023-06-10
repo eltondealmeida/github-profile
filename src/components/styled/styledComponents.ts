@@ -1,4 +1,4 @@
-import { Button, Card, Form, Nav } from "react-bootstrap";
+import { Badge, Button, Card, Form, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -216,6 +216,7 @@ export const AdditionalLinksContainer = styled.div`
 
 export const RepositoryContainer = styled.div`
   text-align: left;
+  margin-top: 30px;
 `;
 
 export const RepositoryName = styled(Link)`
@@ -306,4 +307,15 @@ export const SearchRepositoryContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`;
+
+export const StyledBadge = styled(Badge)`
+  &&& {
+    margin-left: 5px;
+    background-color: lightgray;
+    color: black;
+    border-radius: 10px;
+    padding: 5px 8px;
+    ${(props) => props.bg && `background-color: ${props.bg};`}
+  }
 `;

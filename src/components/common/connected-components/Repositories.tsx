@@ -24,7 +24,7 @@ import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 
 export function Repositories(): JSX.Element {
-  const { watch } = useFormContext<User>();
+  const { watch, setValue } = useFormContext<User>();
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [showTypeFilter, setShowTypeFilter] = useState(false);
   const [showLanguageFilter, setShowLanguageFilter] = useState(false);
@@ -75,6 +75,7 @@ export function Repositories(): JSX.Element {
           })
         );
         setRepositories(mappedRepositories);
+        setValue("reposCount", data.length);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -83,7 +84,7 @@ export function Repositories(): JSX.Element {
     if (reposUrl) {
       fetchRepositories();
     }
-  }, [reposUrl]);
+  }, [reposUrl, setValue]);
 
   useEffect(() => {
     const repoLanguages = repositories.reduce<string[]>((langs, repo) => {
