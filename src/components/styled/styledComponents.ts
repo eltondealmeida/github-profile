@@ -57,10 +57,10 @@ export const SearchRepositoryInput = styled(Form.Control)`
   border-bottom: 1px solid gray;
   padding: 0;
   width: 100%;
-  font-size: 20px;
+  font-size: 18px;
 
   &::placeholder {
-    font-size: 20px;
+    font-size: 18px;
   }
 }`;
 
@@ -116,6 +116,18 @@ export const ErrorText = styled.h5`
 
 export const IntroText = styled.h5`
   text-align: center;
+`;
+
+export const StyledBadge = styled(Badge)`
+  &&& {
+    margin-left: 5px;
+    background-color: lightgray;
+    color: black;
+    border-radius: 10px;
+    padding: 5px 8px;
+    ${(props) => props.bg && `background-color: ${props.bg};`}
+    border: 1px solid #bbbbbb;
+  }
 `;
 
 export const ProfileImage = styled.img`
@@ -307,15 +319,4 @@ export const SearchRepositoryContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-`;
-
-export const StyledBadge = styled(Badge)`
-  &&& {
-    margin-left: 5px;
-    background-color: lightgray;
-    color: black;
-    border-radius: 10px;
-    padding: 5px 8px;
-    ${(props) => props.bg && `background-color: ${props.bg};`}
-  }
 `;

@@ -1,4 +1,5 @@
-import { Col, Row, Spinner, Tabs, Tab } from "react-bootstrap";
+import { SetStateAction, useState } from "react";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { useFormContext } from "react-hook-form";
 import { PageHeader } from "../../common/PageHeader";
 import { User } from "../../../types/User";
@@ -11,14 +12,54 @@ import {
 } from "../../styled/styledComponents";
 import { Repositories } from "../../common/connected-components/Repositories";
 import { BsBook, BsStar } from "react-icons/bs";
+import styled from "styled-components";
 
 export default function HomePage() {
   const { watch } = useFormContext<User>();
+  const [activeTab, setActiveTab] = useState("repositories");
 
   const searchStatus = watch("searchStatus");
   const isLoading = watch("isLoading");
   const searchCompleted = watch("searchCompleted");
   const reposCount = watch("reposCount");
+
+  const handleTabChange = (tabKey: SetStateAction<string>) => {
+    setActiveTab(tabKey);
+  };
+
+  const TabContainer = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  `;
+
+  const TabIcon = styled.div`
+    margin-right: 8px;
+  `;
+
+  const Tab = styled.div<{ isActive: boolean }>`
+    cursor: pointer;
+    padding: 8px 16px;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    color: ${(props) => (props.isActive ? "black" : "gray")};
+    font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
+    ${(props) =>
+      props.isActive &&
+      `
+      border-bottom-color: #fd8c73;
+    `}
+
+    @media (max-width: 992px) {
+      flex: 1;
+    }
+  `;
 
   return (
     <PageHeader>
@@ -37,29 +78,31 @@ export default function HomePage() {
         <Row className="m-4 g-3">
           <Profile />
           <Col md="6">
-            <Tabs defaultActiveKey="repositories">
+            <TabContainer>
               <Tab
-                eventKey="repositories"
-                title={
-                  <div className="d-flex align-items-center">
-                    <BsBook className="me-2" /> Repositories
-                    <StyledBadge bg="lightgray">{reposCount}</StyledBadge>
-                  </div>
-                }
+                isActive={activeTab === "repositories"}
+                onClick={() => handleTabChange("repositories")}
               >
-                <Repositories />
+                <TabIcon>
+                  <BsBook />
+                </TabIcon>
+                <span>Repositories</span>
+                <StyledBadge bg="#f8f8f8" color="#333333">
+                  {reposCount}
+                </StyledBadge>
               </Tab>
               <Tab
-                eventKey="starred"
-                title={
-                  <div className="d-flex align-items-center">
-                    <BsStar className="me-2" /> Starred
-                  </div>
-                }
+                isActive={activeTab === "starred"}
+                onClick={() => handleTabChange("starred")}
               >
-                <div>Starred</div>
+                <TabIcon>
+                  <BsStar />
+                </TabIcon>
+                <span>Starred</span>
               </Tab>
-            </Tabs>
+            </TabContainer>
+            {activeTab === "repositories" && <Repositories />}
+            {activeTab === "starred" && <div>Starred</div>}
           </Col>
         </Row>
       )}
