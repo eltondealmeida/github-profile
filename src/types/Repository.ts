@@ -1,15 +1,14 @@
 export interface Repository {
-  forks: number;
-  stars: number;
   type: string;
-  archived: unknown;
-  id: number;
   name: string;
+  previousName: string;
   fullName: string;
   description: string;
+  url: string;
+  count: number;
   stargazersCount: number;
   language: string;
-  forked: boolean;
-  source: boolean;
   commitsCount: number;
+  searchStatus: string;
+  isLoading: boolean;
 }

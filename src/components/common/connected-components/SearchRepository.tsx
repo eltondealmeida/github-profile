@@ -13,58 +13,59 @@ export function SearchRepository(): JSX.Element {
   const { register, watch, setValue, handleSubmit } = useFormContext<User>();
 
   const login = watch("login");
-  const repositoryName = watch("repositoryName");
-  const previousRepositoryName = watch("previousRepositoryName");
+  const name = watch("repository.name");
+  const previousName = watch("repository.previousName");
 
   const onSearchSubmit = async () => {
-    setValue("isRepositoryLoading", true);
+    setValue("repository.isLoading", true);
 
-    if (!repositoryName) {
-      setValue("isRepositoryLoading", false);
-      setValue("reposUrl", `https://api.github.com/users/${login}/repos`);
+    if (!name) {
+      setValue("repository.isLoading", false);
+      setValue("repository.url", `https://api.github.com/users/${login}/repos`);
       return;
     }
 
     try {
-      if (repositoryName !== previousRepositoryName) {
-        setValue("searchRepositoryStatus", "Repository not found");
+      if (name !== previousName) {
+        setValue("repository.searchStatus", "Repository not found");
       }
 
       const response = await axios.get(
-        `https://api.github.com/repos/${login}/${repositoryName}`
+        `https://api.github.com/repos/${login}/${name}`
       );
 
       const data = response.data;
 
       if (data.message && data.message === "Not Found") {
-        setValue("searchRepositoryStatus", "Repository not found");
+        setValue("repository.searchStatus", "Repository not found");
       } else {
         setValue(
-          "reposUrl",
-          `https://api.github.com/repos/${login}/${repositoryName}`
+          "repository.url",
+          `https://api.github.com/repos/${login}/${name}`
         );
-        setValue("searchRepositoryStatus", "");
+        setValue("repository.searchStatus", "");
       }
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setValue("isRepositoryLoading", false);
-      setValue("previousRepositoryName", repositoryName);
+      setValue("repository.isLoading", false);
+      setValue("repository.previousName", name);
     }
   };
 
   useEffect(() => {
     const handleInputChange = () => {
-      const inputElement = document.getElementById(
-        "repositoryName"
-      ) as HTMLInputElement;
+      const inputElement = document.getElementById("name") as HTMLInputElement;
       if (inputElement && inputElement.value === "") {
-        setValue("isRepositoryLoading", false);
-        setValue("reposUrl", `https://api.github.com/users/${login}/repos`);
+        setValue("repository.isLoading", false);
+        setValue(
+          "repository.url",
+          `https://api.github.com/users/${login}/repos`
+        );
       }
     };
 
-    const inputElement = document.getElementById("repositoryName");
+    const inputElement = document.getElementById("repository.name");
     if (inputElement) {
       inputElement.addEventListener("input", handleInputChange);
     }
@@ -84,8 +85,8 @@ export function SearchRepository(): JSX.Element {
       <SearchRepositoryInput
         type="search"
         placeholder="Search repository"
-        {...register("repositoryName")}
-        id="repositoryName"
+        {...register("repository.name")}
+        id="repository.name"
       />
     </SearchForm>
   );

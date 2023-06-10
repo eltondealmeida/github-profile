@@ -13,6 +13,7 @@ import {
 import { Repositories } from "../../common/connected-components/Repositories";
 import { BsBook, BsStar } from "react-icons/bs";
 import styled from "styled-components";
+import { StarredRepositories } from "../../common/connected-components/StarredRepositories";
 
 export default function HomePage() {
   const { watch } = useFormContext<User>();
@@ -21,7 +22,8 @@ export default function HomePage() {
   const searchStatus = watch("searchStatus");
   const isLoading = watch("isLoading");
   const searchCompleted = watch("searchCompleted");
-  const reposCount = watch("reposCount");
+  const reposCount = watch("repository.count") ?? 0;
+  const starredCount = watch("starred.count") ?? 0;
 
   const handleTabChange = (tabKey: SetStateAction<string>) => {
     setActiveTab(tabKey);
@@ -99,10 +101,13 @@ export default function HomePage() {
                   <BsStar />
                 </TabIcon>
                 <span>Starred</span>
+                <StyledBadge bg="#f8f8f8" color="#333333">
+                  {starredCount}
+                </StyledBadge>
               </Tab>
             </TabContainer>
             {activeTab === "repositories" && <Repositories />}
-            {activeTab === "starred" && <div>Starred</div>}
+            {activeTab === "starred" && <StarredRepositories />}
           </Col>
         </Row>
       )}

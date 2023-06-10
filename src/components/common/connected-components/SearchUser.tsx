@@ -44,16 +44,20 @@ export function SearchUser({
 
       if (data.message && data.message === "Not Found") {
         setValue("searchStatus", "User not found");
+      } else if (data.message && data.message !== "Not Found") {
+        setValue("searchStatus", data.message);
       } else {
-        setValue("avatarUrl", data.avatar_url);
-        setValue("starredUrl", data.starred_url);
-        setValue("reposUrl", data.repos_url);
         setValue("name", data.name);
+        setValue("avatarUrl", data.avatar_url);
         setValue("company", data.company);
         setValue("blog", data.blog);
         setValue("location", data.location);
         setValue("bio", data.bio);
-        setValue("publicRepos", data.public_repos);
+        setValue("repository.url", data.repos_url);
+        setValue(
+          "starred.url",
+          data.starred_url.replace("{/owner}{/repo}", "")
+        );
         setValue("searchStatus", "");
       }
     } catch (error) {
