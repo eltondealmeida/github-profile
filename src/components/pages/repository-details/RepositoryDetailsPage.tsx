@@ -1,30 +1,42 @@
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { RepositoryInfo, Issues, LinkBack } from "./styles";
+import {
+  RepositoryInfo,
+  Issues,
+  LinkBack,
+  CardContainer,
+  SpinnerContainer,
+  ErrorText,
+} from "./styles";
 import { PageHeader } from "../../page-header/PageHeader";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../../types/User";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { RepositoryDetails } from "../../../types/RepositoryDetails";
 import { RepositoryIssues } from "../../../types/RepositoryIssues";
-import { Card } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 export default function RepositoryDetailsPage() {
   const { watch, setValue } = useFormContext<User>();
+  const navigate = useNavigate();
 
   const [repositoryData, setRepositoryData] = useState<RepositoryDetails>();
   const [issuesData, setIssuesData] = useState<RepositoryIssues[]>();
 
   const isRepositoryCurrentPage = watch("repository.details.isCurrentPage");
+  const searchStatus = watch("repository.details.searchStatus");
+  const isLoading = watch("repository.details.isLoading");
   const owner = isRepositoryCurrentPage
     ? watch("repository.details.owner")
     : watch("starred.details.owner");
   const repository = isRepositoryCurrentPage
     ? watch("repository.details.repository")
     : watch("starred.details.repository");
-  const searchStatus = watch("repository.details.searchStatus");
 
   useEffect(() => {
     const fetchRepositories = async () => {
+      setValue("repository.details.isLoading", true);
       try {
         const response = await axios.get(
           `https://api.github.com/repos/${owner}/${repository}`
@@ -49,9 +61,12 @@ export default function RepositoryDetailsPage() {
         }
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        setValue("repository.details.isLoading", false);
       }
     };
     const fetchIssues = async () => {
+      setValue("repository.details.isLoading", true);
       try {
         const response = await axios.get(
           `https://api.github.com/repos/${owner}/${repository}/issues`
@@ -74,6 +89,8 @@ export default function RepositoryDetailsPage() {
         }
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        setValue("repository.details.isLoading", false);
       }
     };
     if (owner && repository) {
@@ -83,14 +100,20 @@ export default function RepositoryDetailsPage() {
   }, [owner, repository, setValue]);
 
   return (
-    <PageHeader hideSearchUser backgroundColor="#f5f5f5">
-      <LinkBack href="/">
+    <PageHeader hideSearchUser backgroundColor="#ebebeb">
+      <LinkBack onClick={() => navigate("/")}>
         <FiChevronLeft size={15} />
         Voltar
       </LinkBack>
 
-      <Card className="text-center align-items-center shadow-none border-0">
-        <Card.Body>
+      {isLoading ? (
+        <SpinnerContainer>
+          <Spinner animation="border" />
+        </SpinnerContainer>
+      ) : searchStatus ? (
+        <ErrorText>{searchStatus}</ErrorText>
+      ) : (
+        <>
           {repositoryData && (
             <RepositoryInfo>
               <header>
@@ -119,21 +142,22 @@ export default function RepositoryDetailsPage() {
               </ul>
             </RepositoryInfo>
           )}
+          <CardContainer>
+            <Issues>
+              {issuesData?.map((issue) => (
+                <a key={issue.id} href={issue.htmlUrl}>
+                  <div>
+                    <strong>{issue.title}</strong>
+                    <p>{issue.user.login}</p>
+                  </div>
 
-          <Issues>
-            {issuesData?.map((issue) => (
-              <a key={issue.id} href={issue.htmlUrl}>
-                <div>
-                  <strong>{issue.title}</strong>
-                  <p>{issue.user.login}</p>
-                </div>
-
-                <FiChevronRight size={20} />
-              </a>
-            ))}
-          </Issues>
-        </Card.Body>
-      </Card>
+                  <FiChevronRight size={20} />
+                </a>
+              ))}
+            </Issues>
+          </CardContainer>
+        </>
+      )}
     </PageHeader>
   );
 }

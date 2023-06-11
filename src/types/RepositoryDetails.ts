@@ -9,4 +9,5 @@ export interface RepositoryDetails {
   openIssuesCount: number;
   isCurrentPage?: boolean;
   searchStatus?: string;
+  isLoading?: boolean;
 }

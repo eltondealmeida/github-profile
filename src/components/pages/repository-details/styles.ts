@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LinkBack = styled.a`
+export const LinkBack = styled.p`
   display: flex;
   align-items: center;
   justify-content: end;
@@ -11,6 +11,7 @@ export const LinkBack = styled.a`
   color: #3d3d4d;
   transition: color 0.2s;
   outline: none;
+  cursor: pointer;
 
   &:hover {
     color: #666;
@@ -19,10 +20,34 @@ export const LinkBack = styled.a`
   svg {
     margin-right: 4px;
   }
+
+  @media (max-width: 991px) {
+    margin-right: 20px;
+    justify-content: end;
+  }
+`;
+
+export const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: none;
+  border: none;
 `;
 
 export const RepositoryInfo = styled.section`
   margin-top: 80px;
+  text-align: left;
+  margin-left: 180px;
+  font-weight: bold;
+  margin-right: 200px;
+
+  @media (max-width: 991px) {
+    margin-left: 0;
+    justify-content: center;
+  }
 
   header {
     display: flex;
@@ -40,12 +65,17 @@ export const RepositoryInfo = styled.section`
       strong {
         font-size: 36px;
         color: #3d3d4d;
+        @media (max-width: 991px) {
+          margin-left: 0;
+          justify-content: center;
+        }
       }
 
       p {
         font-size: 18px;
         color: #737380;
         margin-top: 4px;
+        text-align: left;
       }
     }
   }
@@ -119,4 +149,14 @@ export const Issues = styled.div`
       color: #cbcbd6;
     }
   }
+`;
+
+export const SpinnerContainer = styled.div`
+  text-align: center;
+  justify-content: center;
+`;
+
+export const ErrorText = styled.h5`
+  text-align: center;
+  color: red;
 `;
