@@ -5,7 +5,8 @@ import RepositoryDetailsPage from "../components/pages/repository-details/Reposi
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path={"/" || "*" || "/home"} element={<HomePage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/repository" element={<RepositoryDetailsPage />} />
     </Routes>
   );

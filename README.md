@@ -18,6 +18,12 @@ Bem-vindo ao GitHub profile! Este projeto permite que você acesse informações
 
 Neste vídeo, apresento uma visão geral da interface do usuário e da experiência do usuário no aplicativo GitHub profile. Explico os principais recursos e a navegação entra o perfil e os repositórios.
 
+![Desktop](https://bit.ly/github-profile-desktop)
+
+<br />
+
+![Mobile](https://bit.ly/github-profile-mobile)
+
 ## Primeiros passos
 
 Para começar a usar o GitHub profile, siga estas etapas:

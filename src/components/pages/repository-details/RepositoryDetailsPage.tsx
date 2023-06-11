@@ -42,7 +42,6 @@ export default function RepositoryDetailsPage() {
           `https://api.github.com/repos/${owner}/${repository}`
         );
         const data = response.data;
-
         if (response.data.message) {
           setValue("repository.details.searchStatus", response.data.message);
         } else {
@@ -103,9 +102,8 @@ export default function RepositoryDetailsPage() {
     <PageHeader hideSearchUser backgroundColor="#ebebeb">
       <LinkBack onClick={() => navigate("/")}>
         <FiChevronLeft size={15} />
-        Voltar
+        Back
       </LinkBack>
-
       {isLoading ? (
         <SpinnerContainer>
           <Spinner animation="border" />
@@ -137,7 +135,7 @@ export default function RepositoryDetailsPage() {
                 </li>
                 <li>
                   <strong>{repositoryData.openIssuesCount}</strong>
-                  <span>Issues Abertas</span>
+                  <span>Open Issues</span>
                 </li>
               </ul>
             </RepositoryInfo>
