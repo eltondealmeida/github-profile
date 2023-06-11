@@ -14,7 +14,7 @@ Bem-vindo ao GitHub profile! Este projeto permite que você acesse informações
 
 ## Visão geral do projeto
 
-Vídeo: [Visão geral UI/UX](vimeo.com/user156431496/)
+Vídeo: [Visão geral UI/UX](https://vimeo.com/835195141)
 
 Neste vídeo, apresento uma visão geral da interface do usuário e da experiência do usuário no aplicativo GitHub profile. Explico os principais recursos e a navegação entra o perfil e os repositórios.
 
