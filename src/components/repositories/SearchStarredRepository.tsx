@@ -58,7 +58,7 @@ export function SearchStarredRepository(): JSX.Element {
     }
 
     if (name !== previousName) {
-      setValue("repository.searchStatus", "Starred repository not found");
+      setValue("starred.searchStatus", "Starred repository not found");
     }
 
     try {

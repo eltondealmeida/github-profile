@@ -52,7 +52,7 @@ export function Repositories(): JSX.Element {
           response.data.message &&
           response.data.message !== "Not Found"
         ) {
-          setValue("searchStatus", response.data.message);
+          setValue("repository.searchStatus", response.data.message);
         } else {
           const mappedRepositories = await Promise.all(
             data.map(async (repo: any) => {
@@ -105,17 +105,25 @@ export function Repositories(): JSX.Element {
     setLanguages(repoLanguages);
   }, [repositories]);
 
-  const handleTypeFilterClick = () => {
+  function handleRedirectToRepositoryDetails(
+    owner: string,
+    repository: string
+  ) {
+    setValue("repository.details.owner", owner);
+    setValue("repository.details.repository", repository);
+    setValue("repository.details.isCurrentPage", true);
+    setValue("starred.details.isCurrentPage", false);
+  }
+
+  function handleTypeFilterClick() {
     setShowTypeFilter(!showTypeFilter);
-  };
+  }
 
-  const handleLanguageFilterClick = () => {
+  function handleLanguageFilterClick() {
     setShowLanguageFilter(!showLanguageFilter);
-  };
+  }
 
-  const handleTypeFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  function handleTypeFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value, checked } = event.target;
 
     if (checked) {
@@ -125,11 +133,11 @@ export function Repositories(): JSX.Element {
         prevFilters.filter((filter) => filter !== value)
       );
     }
-  };
+  }
 
-  const handleLanguageFilterChange = (
+  function handleLanguageFilterChange(
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  ) {
     const { value, checked } = event.target;
 
     if (value === "All" && checked) {
@@ -141,9 +149,9 @@ export function Repositories(): JSX.Element {
         prevFilters.filter((filter) => filter !== value)
       );
     }
-  };
+  }
 
-  const filterRepositories = (repo: Repository) => {
+  function filterRepositories(repo: Repository) {
     if (!typeFilter.includes("All") && !typeFilter.includes(repo.type)) {
       return false;
     }
@@ -153,7 +161,7 @@ export function Repositories(): JSX.Element {
     }
 
     return true;
-  };
+  }
 
   const filteredRepositories = repositories.filter(filterRepositories);
 
@@ -198,8 +206,10 @@ export function Repositories(): JSX.Element {
           return (
             <div key={repo.name}>
               <RepositoryName
-                to="#"
-                onClick={() => console.log("Link clicked")}
+                to="/repository"
+                onClick={() =>
+                  handleRedirectToRepositoryDetails(owner, repository)
+                }
               >
                 {owner} / <span>{repository}</span>
               </RepositoryName>

@@ -1,3 +1,5 @@
+import { RepositoryDetails } from "./RepositoryDetails";
+
 export interface Repository {
   type: string;
   name: string;
@@ -11,4 +13,5 @@ export interface Repository {
   commitsCount: number;
   searchStatus: string;
   isLoading: boolean;
+  details?: RepositoryDetails;
 }

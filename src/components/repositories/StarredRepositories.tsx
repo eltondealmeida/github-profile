@@ -104,17 +104,25 @@ export function StarredRepositories(): JSX.Element {
     setLanguages(repoLanguages);
   }, [starredData]);
 
-  const handleTypeFilterClick = () => {
+  function handleRedirectToRepositoryDetails(
+    owner: string,
+    repository: string
+  ) {
+    setValue("starred.details.owner", owner);
+    setValue("starred.details.repository", repository);
+    setValue("starred.details.isCurrentPage", true);
+    setValue("repository.details.isCurrentPage", false);
+  }
+
+  function handleTypeFilterClick() {
     setShowTypeFilter(!showTypeFilter);
-  };
+  }
 
-  const handleLanguageFilterClick = () => {
+  function handleLanguageFilterClick() {
     setShowLanguageFilter(!showLanguageFilter);
-  };
+  }
 
-  const handleTypeFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  function handleTypeFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value, checked } = event.target;
 
     if (checked) {
@@ -124,11 +132,11 @@ export function StarredRepositories(): JSX.Element {
         prevFilters.filter((filter) => filter !== value)
       );
     }
-  };
+  }
 
-  const handleLanguageFilterChange = (
+  function handleLanguageFilterChange(
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  ) {
     const { value, checked } = event.target;
 
     if (value === "All" && checked) {
@@ -140,9 +148,9 @@ export function StarredRepositories(): JSX.Element {
         prevFilters.filter((filter) => filter !== value)
       );
     }
-  };
+  }
 
-  const filterStarredRepositories = (repo: Repository) => {
+  function filterStarredRepositories(repo: Repository) {
     if (!typeFilter.includes("All") && !typeFilter.includes(repo.type)) {
       return false;
     }
@@ -152,7 +160,7 @@ export function StarredRepositories(): JSX.Element {
     }
 
     return true;
-  };
+  }
 
   const filteredStarredRepositories = starredData?.filter(
     filterStarredRepositories
@@ -199,8 +207,10 @@ export function StarredRepositories(): JSX.Element {
           return (
             <div key={repo.name}>
               <RepositoryName
-                to="#"
-                onClick={() => console.log("Link clicked")}
+                to="/repository"
+                onClick={() =>
+                  handleRedirectToRepositoryDetails(owner, repository)
+                }
               >
                 {owner} / <span>{repository}</span>
               </RepositoryName>

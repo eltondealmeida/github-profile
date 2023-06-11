@@ -14,10 +14,16 @@ import {
 } from "./styles";
 
 export interface PageHeaderProps {
+  hideSearchUser?: boolean;
+  backgroundColor?: string;
   children: React.ReactNode;
 }
 
-export function PageHeader({ children }: PageHeaderProps): JSX.Element {
+export function PageHeader({
+  hideSearchUser,
+  backgroundColor,
+  children,
+}: PageHeaderProps): JSX.Element {
   const { setValue } = useFormContext<User>();
 
   return (
@@ -43,11 +49,16 @@ export function PageHeader({ children }: PageHeaderProps): JSX.Element {
               <BsList />
             </MenuButton>
           </Nav>
-          <SearchUser className="d-none d-lg-flex" />
+          {!hideSearchUser && <SearchUser className="d-none d-lg-flex" />}
         </Container>
       </Navbar>
-      <SearchUser isOffcanvas />
-      <div className="m-3">{children}</div>
+      {!hideSearchUser && <SearchUser isOffcanvas />}
+      <div
+        className={!backgroundColor ? "m-3" : `bg-${backgroundColor}`}
+        style={{ backgroundColor: backgroundColor }}
+      >
+        {children}
+      </div>
     </>
   );
 }
