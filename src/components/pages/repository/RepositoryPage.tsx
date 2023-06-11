@@ -1,3 +1,9 @@
+import { PageHeader } from "../../page-header/PageHeader";
+
 export default function RepositoryPage() {
-  return <div>Repositories</div>;
+  return (
+    <PageHeader>
+      <h5>Repository</h5>
+    </PageHeader>
+  );
 }

@@ -25,7 +25,7 @@ import {
   ProfileLinkIcon,
   ProfileLinkWrapper,
   ProfileName,
-} from "../styled/styledComponents";
+} from "./styles";
 
 export function Profile(): JSX.Element {
   const { watch } = useFormContext<User>();

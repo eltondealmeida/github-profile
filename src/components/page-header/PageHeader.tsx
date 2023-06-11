@@ -2,7 +2,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { BsList } from "react-icons/bs";
 import githubLogo from "../../assets/img/github.png";
 import githubText from "../../assets/img/github-text.png";
-import { SearchUser } from "./connected-components/SearchUser";
+import { SearchUser } from "./SearchUser";
 import { useFormContext } from "react-hook-form";
 import { User } from "../../types/User";
 import {
@@ -11,7 +11,7 @@ import {
   LogoText,
   MenuButton,
   ProfileNavLink,
-} from "../styled/styledComponents";
+} from "./styles";
 
 export interface PageHeaderProps {
   children: React.ReactNode;

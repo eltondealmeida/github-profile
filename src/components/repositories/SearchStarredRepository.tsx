@@ -1,14 +1,10 @@
 import { BsSearch } from "react-icons/bs";
 import { useFormContext } from "react-hook-form";
-import { User } from "../../../types/User";
-import {
-  SearchSvgGrayButton,
-  SearchForm,
-  SearchRepositoryInput,
-} from "../../styled/styledComponents";
+import { User } from "../../types/User";
+import { SearchButton, SearchForm, SearchInput } from "./styles";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { Repository } from "../../../types/Repository";
+import { Repository } from "../../types/Repository";
 
 export function SearchStarredRepository(): JSX.Element {
   const { register, watch, setValue, handleSubmit } = useFormContext<User>();
@@ -147,10 +143,10 @@ export function SearchStarredRepository(): JSX.Element {
 
   return (
     <SearchForm onSubmit={handleSubmit(fetchData)}>
-      <SearchSvgGrayButton type="submit">
+      <SearchButton type="submit">
         <BsSearch />
-      </SearchSvgGrayButton>
-      <SearchRepositoryInput
+      </SearchButton>
+      <SearchInput
         type="search"
         placeholder="Search repository"
         {...register("starred.name")}

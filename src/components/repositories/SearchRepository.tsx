@@ -1,12 +1,9 @@
 import { BsSearch } from "react-icons/bs";
 import { useFormContext } from "react-hook-form";
-import { User } from "../../../types/User";
-import {
-  SearchSvgGrayButton,
-  SearchForm,
-  SearchRepositoryInput,
-} from "../../styled/styledComponents";
+
+import { SearchButton, SearchForm, SearchInput } from "./styles";
 import { useEffect } from "react";
+import { User } from "../../types/User";
 import axios from "axios";
 
 export function SearchRepository(): JSX.Element {
@@ -79,10 +76,10 @@ export function SearchRepository(): JSX.Element {
 
   return (
     <SearchForm onSubmit={handleSubmit(onSearchSubmit)}>
-      <SearchSvgGrayButton type="submit">
+      <SearchButton type="submit">
         <BsSearch />
-      </SearchSvgGrayButton>
-      <SearchRepositoryInput
+      </SearchButton>
+      <SearchInput
         type="search"
         placeholder="Search repository"
         {...register("repository.name")}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { Repository } from "../../../types/Repository";
+import { Repository } from "../../types/Repository";
 import { BsStarFill, BsChevronDown } from "react-icons/bs";
 import { FaCodeBranch } from "react-icons/fa";
 import { Form, Offcanvas, Spinner } from "react-bootstrap";
-import { User } from "../../../types/User";
+import { User } from "../../types/User";
+import { SearchRepository } from "./SearchRepository";
 import {
   ButtonGroup,
   ErrorText,
@@ -18,13 +19,13 @@ import {
   RepositoryStars,
   SearchRepositoryContainer,
   SpinnerContainer,
-} from "../../styled/styledComponents";
+} from "./styles";
 import { useMediaQuery } from "react-responsive";
-import { SearchStarredRepository } from "./SearchStarredRepository";
 import axios from "axios";
 
-export function StarredRepositories(): JSX.Element {
+export function Repositories(): JSX.Element {
   const { watch, setValue } = useFormContext<User>();
+  const [repositories, setRepositories] = useState<Repository[]>([]);
   const [showTypeFilter, setShowTypeFilter] = useState(false);
   const [showLanguageFilter, setShowLanguageFilter] = useState(false);
   const [typeFilter, setTypeFilter] = useState<string[]>(["All"]);
@@ -33,36 +34,37 @@ export function StarredRepositories(): JSX.Element {
 
   const isDesktop = useMediaQuery({ minWidth: 992 });
 
-  const starredUrl = watch("starred.url");
-  const searchStatus = watch("starred.searchStatus");
-  const isLoading = watch("starred.isLoading");
-  const starredData = watch("starredData");
+  const reposUrl = watch("repository.url");
+  const searchStatus = watch("repository.searchStatus");
+  const isLoading = watch("repository.isLoading");
 
   useEffect(() => {
-    const fetchStarredRepositories = async () => {
+    const fetchRepositories = async () => {
       try {
-        const response = await axios.get(starredUrl);
-        const data = response.data;
+        const response = await axios.get(reposUrl);
+        const data = Array.isArray(response.data)
+          ? response.data
+          : [response.data];
 
-        if (data.message && data.message === "Not Found") {
-          setValue(
-            "starred.searchStatus",
-            "This user has no starred repositories"
-          );
-        } else if (data.message && data.message !== "Not Found") {
-          setValue("starred.searchStatus", data.message);
+        if (response.data.message && response.data.message === "Not Found") {
+          setValue("repository.searchStatus", "This user has no repositories");
+        } else if (
+          response.data.message &&
+          response.data.message !== "Not Found"
+        ) {
+          setValue("searchStatus", response.data.message);
         } else {
-          const mappedStarredRepositories = await Promise.all(
-            data?.map(async (repo: any) => {
+          const mappedRepositories = await Promise.all(
+            data.map(async (repo: any) => {
               const commitsResponse = await axios.get(
                 repo.commits_url.replace("{/sha}", "")
               );
               const commitsData = commitsResponse.data;
               const commitsCount = Array.isArray(commitsData)
-                ? commitsData?.length
+                ? commitsData.length
                 : 1;
 
-              const mappedStarredRepository: Repository = {
+              const mappedRepository: Repository = {
                 name: repo.name,
                 fullName: repo.full_name,
                 description: repo.description,
@@ -71,29 +73,29 @@ export function StarredRepositories(): JSX.Element {
                 type: repo.type,
                 language: repo.language,
                 previousName: "",
-                url: starredUrl,
+                url: reposUrl,
                 count: 0,
                 searchStatus: "",
                 isLoading: false,
               };
-              return mappedStarredRepository;
+              return mappedRepository;
             })
           );
-          setValue("starredData", mappedStarredRepositories);
-          setValue("starred.count", data?.length);
+          setRepositories(mappedRepositories);
+          setValue("repository.count", data.length);
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    if (starredUrl) {
-      fetchStarredRepositories();
+    if (reposUrl) {
+      fetchRepositories();
     }
-  }, [starredUrl, setValue]);
+  }, [reposUrl, setValue]);
 
   useEffect(() => {
-    const repoLanguages = starredData?.reduce<string[]>((langs, repo) => {
+    const repoLanguages = repositories.reduce<string[]>((langs, repo) => {
       if (repo.language && !langs.includes(repo.language)) {
         return [...langs, repo.language];
       }
@@ -101,7 +103,7 @@ export function StarredRepositories(): JSX.Element {
     }, []);
 
     setLanguages(repoLanguages);
-  }, [starredData]);
+  }, [repositories]);
 
   const handleTypeFilterClick = () => {
     setShowTypeFilter(!showTypeFilter);
@@ -141,28 +143,26 @@ export function StarredRepositories(): JSX.Element {
     }
   };
 
-  const filterStarredRepositories = (repo: Repository) => {
+  const filterRepositories = (repo: Repository) => {
     if (!typeFilter.includes("All") && !typeFilter.includes(repo.type)) {
       return false;
     }
 
-    if (languageFilter?.length > 0 && !languageFilter.includes(repo.language)) {
+    if (languageFilter.length > 0 && !languageFilter.includes(repo.language)) {
       return false;
     }
 
     return true;
   };
 
-  const filteredStarredRepositories = starredData?.filter(
-    filterStarredRepositories
-  );
+  const filteredRepositories = repositories.filter(filterRepositories);
 
   return (
     <RepositoryContainer>
       <FilterContainer>
         {isDesktop && (
           <SearchRepositoryContainer>
-            <SearchStarredRepository />
+            <SearchRepository />
           </SearchRepositoryContainer>
         )}
         <ButtonGroup>
@@ -181,7 +181,7 @@ export function StarredRepositories(): JSX.Element {
         </ButtonGroup>
         {!isDesktop && (
           <SearchRepositoryContainer>
-            <SearchStarredRepository />
+            <SearchRepository />
           </SearchRepositoryContainer>
         )}
       </FilterContainer>
@@ -193,7 +193,7 @@ export function StarredRepositories(): JSX.Element {
       ) : searchStatus ? (
         <ErrorText>{searchStatus}</ErrorText>
       ) : (
-        filteredStarredRepositories?.map((repo) => {
+        filteredRepositories.map((repo) => {
           const [owner, repository] = repo.fullName.split("/");
           return (
             <div key={repo.name}>
@@ -276,10 +276,10 @@ export function StarredRepositories(): JSX.Element {
               id="language-all"
               label="All"
               value="All"
-              checked={languageFilter?.length === languages?.length}
+              checked={languageFilter.length === languages.length}
               onChange={handleLanguageFilterChange}
             />
-            {languages?.map((language) => (
+            {languages.map((language) => (
               <Form.Check
                 key={language}
                 type="checkbox"

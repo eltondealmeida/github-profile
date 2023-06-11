@@ -1,19 +1,21 @@
 import { SetStateAction, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useFormContext } from "react-hook-form";
-import { PageHeader } from "../../common/PageHeader";
+import { PageHeader } from "../../page-header/PageHeader";
 import { User } from "../../../types/User";
-import { Profile } from "../../common/Profile";
+import { Profile } from "../../profile/Profile";
+import { Repositories } from "../../repositories/Repositories";
+import { BsBook, BsStar } from "react-icons/bs";
 import {
   ErrorText,
   IntroText,
   SpinnerContainer,
   StyledBadge,
-} from "../../styled/styledComponents";
-import { Repositories } from "../../common/connected-components/Repositories";
-import { BsBook, BsStar } from "react-icons/bs";
-import styled from "styled-components";
-import { StarredRepositories } from "../../common/connected-components/StarredRepositories";
+  Tab,
+  TabContainer,
+  TabIcon,
+} from "./styles";
+import { StarredRepositories } from "../../repositories/StarredRepositories";
 
 export default function HomePage() {
   const { watch } = useFormContext<User>();
@@ -28,40 +30,6 @@ export default function HomePage() {
   const handleTabChange = (tabKey: SetStateAction<string>) => {
     setActiveTab(tabKey);
   };
-
-  const TabContainer = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-
-    @media (max-width: 768px) {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  `;
-
-  const TabIcon = styled.div`
-    margin-right: 8px;
-  `;
-
-  const Tab = styled.div<{ isActive: boolean }>`
-    cursor: pointer;
-    padding: 8px 16px;
-    border-bottom: 2px solid transparent;
-    display: flex;
-    align-items: center;
-    color: ${(props) => (props.isActive ? "black" : "gray")};
-    font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
-    ${(props) =>
-      props.isActive &&
-      `
-      border-bottom-color: #fd8c73;
-    `}
-
-    @media (max-width: 992px) {
-      flex: 1;
-    }
-  `;
 
   return (
     <PageHeader>

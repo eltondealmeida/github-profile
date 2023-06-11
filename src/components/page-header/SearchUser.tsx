@@ -1,14 +1,14 @@
 import { Offcanvas } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import { useFormContext } from "react-hook-form";
-import { User } from "../../../types/User";
+import { User } from "../../types/User";
+import axios from "axios";
 import {
   SearchButton,
   SearchForm,
   SearchInput,
-  SearchSvgGrayButton,
-} from "../../styled/styledComponents";
-import axios from "axios";
+  SearchOffcanvasButton,
+} from "./styles";
 
 export interface SearchUserProps {
   isOffcanvas?: boolean;
@@ -85,9 +85,9 @@ export function SearchUser({
             placeholder="Search username"
             {...register("login")}
           />
-          <SearchSvgGrayButton type="submit">
+          <SearchOffcanvasButton type="submit">
             <BsSearch className="search-icon-black" />
-          </SearchSvgGrayButton>
+          </SearchOffcanvasButton>
         </SearchForm>
       </Offcanvas.Body>
     </Offcanvas>
